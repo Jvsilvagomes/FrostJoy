@@ -9,14 +9,26 @@ datasource db {
 }
 
 model Sorveteria {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  endereco  String
-  telefone  String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  nome        String
+  descricao   String?
+  endereco    String
+  telefone    String?
+  fotoPerfil  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  sabores   Sabor[]
+  sabores     Sabor[]
+  fotos       Foto[]
+}
+
+model Foto {
+  id            Int      @id @default(autoincrement())
+  url           String
+  descricao     String?
+  sorveteriaId  Int
+
+  sorveteria    Sorveteria @relation(fields: [sorveteriaId], references: [id])
 }
 
 model Tipo {
@@ -29,15 +41,16 @@ model Tipo {
 }
 
 model Sabor {
-  id             Int      @id @default(autoincrement())
-  nome           String
-  descricao      String?
-  preco          Float
-  sorveteriaId   Int
-  tipoId         Int
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  nome          String
+  descricao     String?
+  preco         Float
+  imagem        String?
+  sorveteriaId  Int
+  tipoId        Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
-  sorveteria     Sorveteria @relation(fields: [sorveteriaId], references: [id])
-  tipo           Tipo        @relation(fields: [tipoId], references: [id])
+  sorveteria    Sorveteria @relation(fields: [sorveteriaId], references: [id])
+  tipo          Tipo       @relation(fields: [tipoId], references: [id])
 }
